@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# executed by mybinder.org in the last stage of the docker image build
+
+# fetching up-to-date node regardless installed version
+cd ~
+curl -L https://nodejs.org/dist/v12.18.3/node-v12.18.3-linux-x64.tar.xz | tar xJv
+mv node-v12.18.3-linux-x64 node
+mkdir -p .local/bin
+cd .local/bin
+ln -s ~/node/bin/node
+ln -s ~/node/bin/npm
+
+# installing project deps and js kernel for jupyter
+cd ~
+npm i
+npm i ijavascript
+node_modules/.bin/ijsinstall
+cd .local/bin
+ln -s ~/node_modules/.bin/ijskernel
